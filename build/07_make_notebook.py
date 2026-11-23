@@ -209,9 +209,18 @@ An agent is a language model placed inside a loop:
 
 {img("agent_loop.png", "The agent loop: the model picks a tool, code runs it, the model reads the result, and repeats")}
 
-Two points matter for a bank:
+How the loop works:
 
-1. **The model never touches the data.** It only writes which tool it wants and with which inputs. Ordinary code runs the tool.
+- **Think.** The model reads the question and the tool menu and writes its next move as text: either "call this tool with these inputs" or "here is my answer". Writing text is all it can do.
+- **Act.** If it asked for a tool, ordinary code runs it.
+- **Observe.** The result is added to the conversation, and the model reads the whole conversation again: the question, its earlier moves and their results.
+- **Repeat.** Think, act and observe repeat until the model answers, or until the code stops it after a fixed number of rounds.
+
+The model has no memory between rounds. Everything it knows about the case is in that growing conversation, which the code further down calls `history`.
+
+Two consequences matter for a bank:
+
+1. **The model never touches the data.** It sees only what the tools return.
 2. **Every step is visible.** You can log, check and block each one.
 
 Here is the menu of tools the model receives. It is built from the sentences in triple quotes that you saw earlier.
@@ -256,6 +265,7 @@ brain.menu()
 ''')
 md("""
 This is the whole agent. Read it line by line: it is the loop from the diagram.
+`history` is the conversation, `brain(history)` is the model reading it and choosing its move, and `max_steps` is the limit on rounds.
 """)
 code('''
 def run_agent(question, brain, tools, guardrail=None, max_steps=8):
