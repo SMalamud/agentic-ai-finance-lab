@@ -259,7 +259,13 @@ game = lab.Game(DISNEY, TOOLS)
 ''')
 md("The first move is filled in for you.")
 code('game.act("biggest_moves", ticker="DIS", year=2024)')
-md(f"{TURN} Choose your second and third moves: replace each `...` and run the box. A mistake only produces an error message, exactly as it would for a model.")
+md(f"""
+{TURN} Choose your second and third moves: replace each `...` and run the box. A mistake only produces an error message, exactly as it would for a model.
+
+For the search, describe what you expect the document to say, for example `"why did the stock rise"`.
+The company and the date do most of the work: they leave only the five passages of one press release, and your query decides which three of them you see.
+A vague query such as `"news"` misses the important ones.
+""")
 code('game.act("compare_to_market", ticker="DIS", date="...")')
 code('game.act("search_news", query="...", ticker="DIS", when="...")')
 code('game.answer("Type your answer for the client here.")')
@@ -324,6 +330,7 @@ md("""
 **What to notice**
 
 - No line of our code fixes the order of the steps. The model chose it when it was recorded, and chose differently for different questions (compare questions 0, 7 and 8).
+- The search queries are the model's own words. It wrote each one after reading the price data, and nobody gave it a list.
 - In question 8 the first search returned the wrong quarter. The model saw that in the result and searched again with narrower dates.
 - In questions 3 and 6 the honest answer is "my sources do not say". A model without tools, asked the same thing, would be tempted to produce a fluent guess.
 - Every answer that gives a reason cites passages you can open and check.
