@@ -170,10 +170,19 @@ code('lab.search("cyber attack", k=3)')
 md("""
 ### The map of meaning
 
-Each dot is one passage, placed so that passages with similar meaning are close. Colours show the sector, which the model was never told.
-Hover over a dot to read it.
+Each passage is a list of 384 numbers, which is a point in a space with 384 directions. Nobody can draw that.
+A standard method called t-SNE flattens it to two: it moves the dots around on the page until each passage sits next to
+the passages that were its closest neighbours in the full space. We computed the positions in advance.
+
+How to read the map:
+
+- Each dot is one passage. Hover over it to read the text.
+- Dots that are close have similar meaning. Only closeness counts: the axes mean nothing, and neither does the distance between far-apart groups.
+- The colours show each company's sector. We added them afterwards and the model never saw them, so where one colour gathers, the model grouped those passages by their text alone.
+- Flattening loses detail. The search always uses all 384 numbers, never the map.
 """)
 code('lab.show_map()')
+md("Now the same map with a question. The stars mark the 15 passages that score highest for it, found with the three steps from before.")
 code('lab.show_map("credit losses and loan provisions")')
 md("""
 ### The third tool
