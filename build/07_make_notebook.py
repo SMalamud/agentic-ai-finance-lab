@@ -124,6 +124,14 @@ Sentences 1 and 2 share almost no words, yet they score highest. Sentence 4 is u
 ### Our library
 
 We have 2,860 short passages from the earnings press releases of the same 30 companies, 2023 to 2026.
+
+How the passages were made: a script took each press release, kept the sentences, and dropped the financial tables and the legal boilerplate.
+It kept the opening part, which holds the headline results and the management quotes, and cut it at sentence boundaries into pieces of about 110 words.
+That gives about six passages per release. Short pieces are needed because the embedding model reads only about 200 words at a time,
+and because a short passage is easy for a reader to check.
+
+Two consequences: figures that appear only in tables cannot be found, and neither can anything late in a long release.
+
 Each passage has already been turned into its 384 numbers. Searching by meaning is now one line of arithmetic.
 
 Compare the two ways of searching. First the classic way, by exact words:
