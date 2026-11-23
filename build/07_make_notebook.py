@@ -393,6 +393,16 @@ Two honest remarks:
 
 {img("guardrail.png", "A guardrail sits between the model and the tools")}
 
+How a guardrail works:
+
+- It is an ordinary function that the loop calls before every tool. Look back at `run_agent`: the line `if guardrail and not guardrail(tool, args)` is the whole mechanism.
+- It receives the name of the tool the model wants and the inputs the model chose, and it returns yes or no.
+- On a no, the tool does not run. The model is told `BLOCKED` in place of a result and must go on without it.
+- It looks only at the action. It never reads the document or the model's reasoning, so it does not need to recognise the attack: whatever persuaded the model, an email to an outside address is refused.
+
+The limit: a rule stops only what it describes. Ours would let through an email to a colleague inside the bank, whatever it contained.
+That is what the second guardrail, further down, is for.
+
 ### A guardrail in five lines
 
 The rule below lets every read-only tool through, and allows emails only to addresses inside the bank.
