@@ -1,5 +1,4 @@
-"""Assemble Agentic_AI_Finance_Lab.ipynb from the cells below. Diagrams are embedded in the file."""
-import base64
+"""Assemble Agentic_AI_Finance_Lab.ipynb from the cells below. Diagrams are linked from the repository."""
 from pathlib import Path
 import nbformat as nbf
 import tools_src
@@ -18,8 +17,10 @@ def code(text):
 
 
 def img(name, alt):
-    data = base64.b64encode((ROOT / "img" / name).read_bytes()).decode()
-    return f"![{alt}](data:image/png;base64,{data})"
+    # A link, not an embedded image: embedding puts 100 KB of base64 into the text cell,
+    # which is what a participant sees after double-clicking it in Colab.
+    assert (ROOT / "img" / name).exists(), name
+    return f"![{alt}](https://raw.githubusercontent.com/{REPO}/main/img/{name})"
 
 
 TURN = "> **Your turn.**"
@@ -42,7 +43,7 @@ In this lab you build an AI agent that does the same four things.
 
 - Grey boxes are code. Click one and press **Shift + Enter** to run it. Run them from top to bottom.
 - You do not need to write code. Where a box is marked **Your turn**, change a word or a number and run it again.
-- Nothing here can break anything. If you get lost, use *Runtime → Restart and run all*.
+- Nothing here can break anything. If you get lost, use *Runtime → Restart session and run all*.
 
 **No API key and no cost.** The data is public (stock prices and press releases filed with the US SEC).
 The language model's replies were recorded in advance. Part 3 explains how that works and what it means.
@@ -128,7 +129,36 @@ Each passage has already been turned into its 384 numbers. Searching by meaning 
 Compare the two ways of searching. First the classic way, by exact words:
 """)
 code('lab.keyword_search("demand for artificial intelligence chips")')
-md("No passage contains that exact phrase. Now by meaning:")
+md("""
+No passage contains that exact phrase. Meaning search will find some anyway. First, how it works.
+
+### How the search finds meaning
+
+The embedding model learned from about a billion pairs of texts that belong together, such as a question and its answer.
+Training adjusted it until such pairs received similar numbers and unrelated texts received different ones.
+Nobody gave it a dictionary: it saw "bank" and "lender" in the same contexts so often that it now gives them nearly the same numbers.
+
+The search then takes three steps:
+
+1. Turn the question into 384 numbers, with the same model that processed the passages.
+2. Score every passage against the question: multiply the two lists number by number and add up. This is the score from the table above.
+3. Sort the passages by score and keep the best.
+
+Here are the three steps written out.
+""")
+code('''
+question = "demand for artificial intelligence chips"
+
+q = lab.embed(question)                     # step 1: the question as 384 numbers
+print(len(q), "numbers. The first five:", q[:5].round(2))
+
+scores = lab.vectors @ q                    # step 2: one score per passage
+print(len(scores), "scores, one for each passage")
+
+best = lab.news.assign(score=scores).nlargest(5, "score")   # step 3: the five best
+best[["company", "date", "score"]].round(2)
+''')
+md("`lab.search` runs the same three steps and shows the text of the passages it finds.")
 code('lab.search("demand for artificial intelligence chips")')
 md(f"""
 The search found Nvidia passages about "AI factories" and "accelerated computing". Nobody told it that Nvidia makes AI chips.

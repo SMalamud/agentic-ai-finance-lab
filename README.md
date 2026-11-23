@@ -10,13 +10,13 @@ The notebook needs no API key and costs nothing to run.
 
 **In Google Colab (recommended for the class).** Click the badge above and run the cells from top to bottom. The first cell downloads `lab.py` and the data from this repository.
 
-**On your own machine.** Clone the repository, run `pip install -r requirements.txt`, and open `Agentic_AI_Finance_Lab.ipynb`. The notebook then reads the local `data/` folder and downloads nothing except the embedding model (about 90 MB, once).
+**On your own machine.** Clone the repository, run `pip install -r requirements.txt`, and open `Agentic_AI_Finance_Lab.ipynb`. The notebook then reads the local `data/` folder. It still needs internet access for the diagrams and, once, for the embedding model (about 90 MB).
 
 ## What is in the repository
 
 | Path | Contents |
 |---|---|
-| `Agentic_AI_Finance_Lab.ipynb` | The notebook. Diagrams are embedded in the file. |
+| `Agentic_AI_Finance_Lab.ipynb` | The notebook. Its four diagrams are loaded from `img/` in this repository. |
 | `lab.py` | Helper code: data loading, charts, output formatting, and the recorded model. |
 | `data/prices.csv` | Daily adjusted closing prices of the 30 Dow Jones Industrial Average stocks, 3 January 2023 to 30 October 2026, from Yahoo Finance. |
 | `data/passages.csv` | 2,860 text passages from 485 earnings press releases (Form 8-K, Item 2.02, Exhibit 99.1) downloaded from SEC EDGAR, plus one planted document for the security exercise. |

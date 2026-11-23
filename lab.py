@@ -138,13 +138,14 @@ def embed(text):
 
 def _load_model():
     """Load the small open embedding model, keeping the screen free of technical messages."""
-    import logging, os, warnings
+    import contextlib, io, logging, os, warnings
     print("Loading the embedding model (once, about 20 seconds) ...")
     os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
     os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
     for name in ["huggingface_hub", "sentence_transformers", "transformers"]:
         logging.getLogger(name).setLevel(logging.ERROR)
-    with warnings.catch_warnings():
+    # the libraries print notices about access tokens in red; none of them matters here
+    with warnings.catch_warnings(), contextlib.redirect_stderr(io.StringIO()):
         warnings.simplefilter("ignore")
         try:
             from sentence_transformers import SentenceTransformer
