@@ -327,6 +327,30 @@ md(f"""
 code('run_agent(brain.questions[3], brain, TOOLS)')
 code('run_agent(brain.questions[6], brain, TOOLS)')
 md("""
+### What really happened
+
+The agent was right to stop: none of these causes is in a company press release. Here is what the news reported at the time.
+
+- **Apple, 3 April 2025 (question 3).** The evening before, the US president announced import tariffs on almost all trading partners,
+  including an additional 34% on China, 46% on Vietnam and 26% on India, the countries where Apple's products are assembled.
+  Apple fell more than 9%, its worst day since March 2020, and the whole market fell with it
+  ([Axios](https://www.axios.com/2025/04/03/trump-tariffs-apple-iphone),
+  [Yahoo Finance](https://finance.yahoo.com/news/apple-sheds-over-300-billion-in-tariff-fueled-sell-off-notches-worst-drop-since-march-2020-202710020.html)).
+- **Nvidia, 27 January 2025 (question 6).** The Chinese start-up DeepSeek had released an AI model that was reported to need far less of Nvidia's hardware
+  than its US rivals. Investors asked whether demand for Nvidia's chips would hold. The company lost about 589 billion dollars of market value,
+  the largest one-day loss for any company on record
+  ([Bloomberg](https://www.bloomberg.com/news/articles/2025-01-27/asml-sinks-as-china-ai-startup-triggers-panic-in-tech-stocks),
+  [Yahoo Finance](https://finance.yahoo.com/news/chinas-deepseek-sets-off-ai-071458375.html)).
+- **Nike, 28 June 2024 (question 1).** The agent found the press release but not the size of the revised outlook.
+  Nike gave it the same evening on its call with analysts: revenue would fall by a mid-single-digit percentage in the coming fiscal year
+  and by about 10% in the current quarter, where analysts had expected slight growth
+  ([Al Jazeera](https://www.aljazeera.com/economy/2024/6/28/nike-stock-plunges-on-surprise-forecast-of-drop-in-sales),
+  [Bloomberg](https://www.bloomberg.com/news/articles/2024-06-27/nike-posts-quarterly-sales-that-miss-wall-street-estimates)).
+
+A government announcement, a competitor's product and a call with analysts: three kinds of source our tools cannot read.
+An agent can explain only what its tools can reach. With a news-search tool, the same loop would have found all three.
+""")
+md("""
 **What to notice**
 
 - No line of our code fixes the order of the steps. The model chose it when it was recorded, and chose differently for different questions (compare questions 0, 7 and 8).
