@@ -182,8 +182,19 @@ How to read the map:
 - Flattening loses detail. The search always uses all 384 numbers, never the map.
 """)
 code('lab.show_map()')
-md("Now the same map with a question. The stars mark the 15 passages that score highest for it, found with the three steps from before.")
+md("""
+Now the same map with a question. The question itself is not placed on the map.
+It is scored against every passage with all 384 numbers, as in the search above, and the 15 best passages are redrawn as red stars
+at the positions they already had. The other dots are dimmed.
+""")
 code('lab.show_map("credit losses and loan provisions")')
+md(f"""
+All 15 stars sit in one small patch at the right edge, among the financial companies: they are passages from American Express and Goldman Sachs.
+Drag a box around them to zoom in. The search never looked at the map, and the map was drawn without the question, yet the best matches land together.
+The flat picture is a fair summary of what the 384 numbers hold.
+
+{TURN} Put your own question in the box above and see where the stars fall. If they scatter, the best matches come from different topics.
+""")
 md("""
 ### The third tool
 
