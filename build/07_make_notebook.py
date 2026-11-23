@@ -199,6 +199,10 @@ md("""
 ### The third tool
 
 We wrap the search in a tool, with two optional filters: the company, and a year or a date.
+
+A date is searched with five days either side, because the news and the price move often fall on different days.
+A company that publishes its results after the market closes moves the next morning, so a search on the day of the move alone would find nothing.
+You will meet such a case in Part 3. The model does not work this out: the window is in our code, and the model knows of it only from the sentence in triple quotes.
 """)
 code(tools_src.SEARCH_TOOL)
 code('''
